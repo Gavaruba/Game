@@ -61,9 +61,6 @@ permalink: /Game
         },
         down: {
             pressed: false
-        },
-         shift: {
-            pressed: false
         }
     };
     // Animation function to continuously update and render the canvas
@@ -80,6 +77,11 @@ permalink: /Game
         } else if (keys.down.pressed) {
             player.velocity.y = 5;   
         } 
+            else {
+            player.velocity.x = 0;
+            player.velocity.y = 0;
+            }
+        //Make player loop through boundaries
         if (player.position.x >= 800) {
             player.position.x = 0;
         }
@@ -92,23 +94,6 @@ permalink: /Game
             else if (player.position.y <= 0) {
             player.position.y = 800;
         }
-        else {
-            player.velocity.x = 0;
-            player.velocity.y = 0;
-            }
-    if (keys.shift.pressed && keys.right.pressed) {
-        player.velocity.x + 8;
-    } else if (keys.shift.pressed && keys.left.pressed) {
-        player.velocity.x = -8;
-    } else if (keys.shift.pressed && keys.up.pressed) {
-        player.velocity.y = -8;
-    } else if (keys.shift.pressed && keys.down.pressed) {
-        player.velocity.y = 8;
-    }
-            else {
-            player.velocity.x = 0;
-            player.velocity.y = 0;
-            }
     }
     animate();
     // Event listener for keydown events
@@ -129,10 +114,6 @@ permalink: /Game
             case 87:
                 console.log('up');
                 keys.up.pressed = true;
-                break;
-             case 16:
-                console.log('shift');
-                keys.shift.pressed = true;
                 break;
         }
     });
@@ -155,10 +136,6 @@ permalink: /Game
                 console.log('up');
                 keys.up.pressed = false;
                 break;
-             case 16:
-                console.log('shift');
-                keys.shift.pressed = false;
-                break;
-        }
+                }
     });
 </script>
