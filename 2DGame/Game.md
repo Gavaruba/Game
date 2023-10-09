@@ -138,59 +138,27 @@ permalink: /Game
                 break;
                 }
     });
-    // NEW CODE - DEFINE BLOCKOBJECT CLASS
-    //--
-    class BlockObject {
-        constructor(image) {
-            // Initial position of the block object
+     class GenericObject {
+        constructor({ x, y, image }) {
             this.position = {
-                x: 100,
-                y: 100
+                x,
+                y
             };
             this.image = image;
-            this.width = 100;
-            this.height = 100;
+            this.width = 800;
+            this.height = 800;
         }
-        // Method to draw the block object on the canvas
+        // Method to draw the generic object on the canvas
         draw() {
             c.drawImage(this.image, this.position.x, this.position.y);
         }
     }
-    // Load images
-    let image = new Image();
-    //--
-    // NEW CODE - ADD IMAGE FOR BLOCK OBJECT
-    //--
-    let imageBlock = new Image();
-    // Load image sources
-    image.src = 'https://samayass.github.io/samayaCSA/images/platform.png';
-    imageBlock.src = 'https://gavaruba.github.io/Game/2DGame/Images/whiteBlock.jpg';
-    //--
-    // CREATE BLOCK OBJECT
-    //--
-    let blockObject = new BlockObject(imageBlock);
-    // Animation function to continuously update and render the canvas
-    function animate() {
-        requestAnimationFrame(animate);
-        c.clearRect(0, 0, canvas.width, canvas.height);
-        // Draw platform, player, tube, and block object
-        blockObject.draw();
-        }
-        //--
-        // DRAW BLOCK OBJECT
-        //--
-        blockObject.draw();
-        //--
-        // COLLISIONS BETWEEN BLOCK OBJECT AND PLAYER
-        //--
-        if (
-            player.position.y + player.height <= blockObject.position.y &&
-            player.position.y + player.height + player.velocity.y >= blockObject.position.y &&
-            player.position.x + player.width >= blockObject.position.x &&
-            player.position.x <= blockObject.position.x + blockObject.width
-        )
-        {
-            player.velocity.y = 0;
-        }
+    let genericObjects = [
+        new GenericObject({
+            x:0, y:0, image: imageBackground
+        }),
+    ];
+     let imageBackground = new Image();
+     imageBackground.src = 'https://gavaruba.github.io/Game/2DGame/Images/whiteBlock.jpg';
 
 </script>
