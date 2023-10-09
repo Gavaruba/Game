@@ -159,6 +159,6 @@ permalink: /Game
         }),
     ];
      let imageBackground = new Image();
-     imageBackground.src = 'https://gavaruba.github.io/Game/2DGame/Images/whiteBlock.jpg';
+     imageBackground.src = 'https://Gavaruba.github.io/Game/2DGame/Images/whiteBlock.jpg';
 
 </script>
