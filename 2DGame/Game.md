@@ -12,153 +12,137 @@ permalink: /Game
 </style>
 <canvas id='canvas'></canvas>
 <script>
-    // Create empty canvas
-    let canvas = document.getElementById('canvas');
-    let c = canvas.getContext('2d');
-    // Set the canvas dimensions
-    canvas.width = 720;
-    canvas.height = 720;
-    // Define the Player class
-    class Player {
-        constructor() {
-            // Initial position and velocity of the player
-            this.position = {
-                x: 100,
-                y: 200
-            };
-            this.velocity = {
-                x: 0,
-                y: 0
-            };
-            // Dimensions of the player
-            this.width = 20;
-            this.height = 20;
-        }
-        // Method to draw the player on the canvas
-        draw() {
-            c.fillStyle = 'red';
-            c.fillRect(this.position.x, this.position.y, this.width, this.height);
-        }
-        // Method to update the players position and velocity
-        update() {
-            this.draw();
-            this.position.y += this.velocity.y;
-            this.position.x += this.velocity.x;
-        }
-    }
-    // Create a player object
-    player = new Player();
-    // Define keyboard keys and their states
-    let keys = {
-        right: {
-            pressed: false
-        },
-        left: {
-            pressed: false
-        },
-        up: {
-            pressed: false
-        },
-        down: {
-            pressed: false
-        }
-    };
-    // Animation function to continuously update and render the canvas
-    function animate() {
-        requestAnimationFrame(animate);
-        c.clearRect(0, 0, canvas.width, canvas.height);
-        player.update();
-        if (keys.right.pressed) {
-            player.velocity.x = 5;
-        } else if (keys.left.pressed)  {
-            player.velocity.x = -5;           
-        } else if (keys.up.pressed) {
-            player.velocity.y = -5; 
-        } else if (keys.down.pressed) {
-            player.velocity.y = 5;   
-        } 
-            else {
-            player.velocity.x = 0;
-            player.velocity.y = 0;
+    (function () {
+        const BLOCK = 30;
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 600;
+        canvas.height = 600;
+        const gridSize = canvas.width / BLOCK;
+        let score = 0; // Initialize score
+        class Player {
+            constructor() {
+                this.position = {
+                    x: 10,
+                    y: 10
+                };
+                this.velocity = {
+                    x: 0,
+                    y: 0
+                };
+                this.radius = 10; // Pac-Man's radius
+                this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening
+                this.direction = 'right'; // Initial direction
             }
-        //Make player loop through boundaries
-        if (player.position.x >= 800) {
-            player.position.x = 0;
-        }
-            else if (player.position.x <= 0) {
-            player.position.x = 800;
-        }
-         if (player.position.y >= 800) {
-            player.position.y = 0;
-        }
-            else if (player.position.y <= 0) {
-            player.position.y = 800;
-        }
-    }
-    animate();
-    // Event listener for keydown events
-    addEventListener('keydown', ({ keyCode }) => {
-        switch (keyCode) {
-            case 65:
-                console.log('left');
-                keys.left.pressed = true;
-                break;
-            case 83:
-                console.log('down');
-                keys.down.pressed = true;
-                break;
-            case 68:
-                console.log('right');
-                keys.right.pressed = true;
-                break;
-            case 87:
-                console.log('up');
-                keys.up.pressed = true;
-                break;
-        }
-    });
-    // Event listener for keyup events
-    addEventListener('keyup', ({ keyCode }) => {
-        switch (keyCode) {
-            case 65:
-                console.log('left');
-                keys.left.pressed = false;
-                break;
-            case 83:
-                console.log('down');
-                keys.down.pressed = false;
-                break;
-            case 68:
-                console.log('right');
-                keys.right.pressed = false;
-                break;
-            case 87:
-                console.log('up');
-                keys.up.pressed = false;
-                break;
+            draw() {
+                ctx.fillStyle = 'yellow';
+                ctx.beginPath();
+                if (this.direction === 'right') {
+                    ctx.arc(this.position.x, this.position.y, this.radius, (0 + this.mouthAngle) * Math.PI, (2 - this.mouthAngle) * Math.PI);
+                } else {
+                    ctx.arc(this.position.x, this.position.y, this.radius, (2 + this.mouthAngle) * Math.PI, (0 - this.mouthAngle) * Math.PI);
                 }
-    });
-     class GenericObject {
-        constructor({ x, y, image }) {
-            this.position = {
-                x,
-                y
-            };
-            this.image = image;
-            this.width = 800;
-            this.height = 800;
+                ctx.lineTo(this.position.x, this.position.y);
+                ctx.fill();
+            }
+            update() {
+                this.draw();
+                // Update mouth animation
+                if (this.direction === 'right') {
+                    this.mouthAngle += 0.02;
+                    if (this.mouthAngle > 0.5) this.direction = 'left';
+                } else {
+                    this.mouthAngle -= 0.02;
+                    if (this.mouthAngle < 0) this.direction = 'right';
+                }
+                // Update player's position
+                this.position.x += this.velocity.x;
+                this.position.y += this.velocity.y;
+            }
         }
-        // Method to draw the generic object on the canvas
-        draw() {
-            c.drawImage(this.image, this.position.x, this.position.y);
+        const player = new Player();
+        const keys = {
+            right: { pressed: false },
+            left: { pressed: false },
+            up: { pressed: false },
+            down: { pressed: false }
+        };
+        class Food {
+            constructor() {
+                this.position = {
+                    x: Math.floor(Math.random() * gridSize),
+                    y: Math.floor(Math.random() * gridSize)
+                };
+                this.radius = 10;
+            }
+            draw() {
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.lineTo(this.position.x, this.position.y);
+                ctx.fill();
+            }
+            update() {
+                this.draw();
+            }
         }
-    }
-    let genericObjects = [
-        new GenericObject({
-            x:0, y:0, image: imageBackground
-        }),
-    ];
-     let imageBackground = new Image();
-     imageBackground.src = 'https://Gavaruba.github.io/Game/2DGame/Images/whiteBlock.jpg';
-
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            player.update();
+            }
+        // Function to check if Pac-Man eats the food
+        function eatFood() {
+            if (
+                (player.position.x - food.x) < 10 &&
+                (player.position.y - food.y) < 10
+            ) {
+        // Increase the score and generate new food
+                score += 10;
+                document.getElementById('score').innerText = `Score: ${score}`;
+                food = {
+                    x: Math.floor(Math.random() * gridSize),
+                    y: Math.floor(Math.random() * gridSize)
+                };
+            }
+        }
+        animate();
+        addEventListener('keydown', ({ keyCode }) => {
+            switch (keyCode) {
+                case 37:
+                    // Left key
+                    player.velocity.x = -1;
+                    player.velocity.y = 0;
+                    break;
+                case 38:
+                    // Up key
+                    player.velocity.x = 0;
+                    player.velocity.y = -1;
+                    break;
+                case 39:
+                    // Right key
+                    player.velocity.x = 1;
+                    player.velocity.y = 0;
+                    break;
+                case 40:
+                    // Down key
+                    player.velocity.x = 0;
+                    player.velocity.y = 1;
+                    break;
+            }
+            eatFood();
+        });
+        addEventListener('keyup', ({ keyCode }) => {
+            switch (keyCode) {
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                    player.velocity.x = 0;
+                    player.velocity.y = 0;
+                    break;
+            }
+        });
+        player.draw();
+    })();
 </script>
+<p id="score">Score: 0</p>
