@@ -7,19 +7,19 @@ permalink: /Game
 <style>
     #canvas {
         margin: 0;
-        border: 1px solid white;
+        border: 2px solid white;
     }
 </style>
 <canvas id='canvas'></canvas>
 <script>
-    (function () {
-        const BLOCK = 30;
+     ( function () {
+     const BLOCK = 30;
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = 600;
         canvas.height = 600;
         const gridSize = canvas.width / BLOCK;
-        let score = 0; // Initialize score
+        let score = 0;
         class Player {
             constructor() {
                 this.position = {
@@ -68,42 +68,44 @@ permalink: /Game
             down: { pressed: false }
         };
         class Food {
-            constructor() {
+            constructor(x, y) {
                 this.position = {
-                    x: Math.floor(Math.random() * gridSize),
-                    y: Math.floor(Math.random() * gridSize)
+                    x: x,
+                    y: y
                 };
-                this.radius = 10;
+            this.radius = 5;
             }
             draw() {
                 ctx.fillStyle = 'white';
                 ctx.beginPath();
-                ctx.lineTo(this.position.x, this.position.y);
+                ctx.arc((this.position.x + 0.5) * BLOCK, (this.position.y + 0.5) * BLOCK, this.radius, 0, 2 * Math.PI);
                 ctx.fill();
             }
-            update() {
-                this.draw();
+        }
+        const foods = [];
+        for (let i = 0; i < 15; i++) {
+            foods.push(new Food(i, 5));
+        }
+        // Function to check if Pac-Man eats the food
+        function eatFood() {
+            for (let i = 0; i < foods.length; i++) {
+                const food = foods[i];
+                if (Math.abs(player.position.x - food.position.x * BLOCK) < 15 && Math.abs(player.position.y - food.position.y * BLOCK) < 20) {
+                    // Increase the score and remove the eaten food
+                    score += 10;
+                    document.getElementById('score').innerText = `Score: ${score}`;
+                    foods.splice(i, 1);
+                }
             }
         }
         function animate() {
             requestAnimationFrame(animate);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const food of foods) {
+                food.draw();
+            }
             player.update();
-            }
-        // Function to check if Pac-Man eats the food
-        function eatFood() {
-            if (
-                (player.position.x - food.x) < 10 &&
-                (player.position.y - food.y) < 10
-            ) {
-        // Increase the score and generate new food
-                score += 10;
-                document.getElementById('score').innerText = `Score: ${score}`;
-                food = {
-                    x: Math.floor(Math.random() * gridSize),
-                    y: Math.floor(Math.random() * gridSize)
-                };
-            }
+            eatFood();
         }
         animate();
         addEventListener('keydown', ({ keyCode }) => {
@@ -129,7 +131,6 @@ permalink: /Game
                     player.velocity.y = 1;
                     break;
             }
-            eatFood();
         });
         addEventListener('keyup', ({ keyCode }) => {
             switch (keyCode) {
