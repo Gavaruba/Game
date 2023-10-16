@@ -110,22 +110,22 @@ permalink: /Game
         animate();
         addEventListener('keydown', ({ keyCode }) => {
             switch (keyCode) {
-                case 37:
+                case 65:
                     // Left key
                     player.velocity.x = -1;
                     player.velocity.y = 0;
                     break;
-                case 38:
+                case 87:
                     // Up key
                     player.velocity.x = 0;
                     player.velocity.y = -1;
                     break;
-                case 39:
+                case 68:
                     // Right key
                     player.velocity.x = 1;
                     player.velocity.y = 0;
                     break;
-                case 40:
+                case 83:
                     // Down key
                     player.velocity.x = 0;
                     player.velocity.y = 1;
@@ -134,10 +134,10 @@ permalink: /Game
         });
         addEventListener('keyup', ({ keyCode }) => {
             switch (keyCode) {
-                case 37:
-                case 38:
-                case 39:
-                case 40:
+                case 65:
+                case 87:
+                case 83:
+                case 68:
                     player.velocity.x = 0;
                     player.velocity.y = 0;
                     break;
