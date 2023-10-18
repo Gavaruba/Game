@@ -23,8 +23,8 @@ permalink: /Game
         class Player {
             constructor() {
                 this.position = {
-                    x: 10,
-                    y: 10
+                    x: 300,
+                    y: 250
                 };
                 this.velocity = {
                     x: 0,
@@ -47,8 +47,18 @@ permalink: /Game
         }
             }
             draw() {
-                ctx.fillStyle = 'yellow';
+           ctx.fillStyle = 'yellow';
                 ctx.beginPath();
+                // Update mouth animation based on direction
+                if (this.direction === 'right') {
+                        this.mouthAngle += 0.02;
+                     if (this.mouthAngle > 0.4) this.direction = 'right';
+                        this.mouthAngle -= 0.02;
+                     if (this.mouthAngle < 0) this.direction = 'left';
+              } else {
+                    // If not moving, reset the mouth angle
+                    this.mouthAngle = 0;
+                }
                 if (this.direction === 'right') {
                     ctx.arc(this.position.x, this.position.y, this.radius, (0 + this.mouthAngle) * Math.PI, (2 - this.mouthAngle) * Math.PI);
                 } else {
@@ -58,15 +68,6 @@ permalink: /Game
                 ctx.fill();
             }
             update() {
-                this.draw();
-                // Update mouth animation
-                if (this.direction === 'right') {
-                    this.mouthAngle += 0.02;
-                    if (this.mouthAngle > 0.5) this.direction = 'left';
-                } else {
-                    this.mouthAngle -= 0.02;
-                    if (this.mouthAngle < 0) this.direction = 'right';
-                }
                 // Update player's position
                 this.position.x += this.velocity.x;
                 this.position.y += this.velocity.y;
@@ -94,9 +95,16 @@ permalink: /Game
                 ctx.fill();
             }
         }
+        //
+        // Food Mapping
+        //
         const foods = [];
-        for (let i = 0; i < 15; i++) {
-            foods.push(new Food(i, 5));
+        for (let i = 0; i < 20; i++) {
+            foods.push(new Food( i, 19));
+            foods.push(new Food(i, 0));
+        } for (let i = 0; i < 19; i++) {
+            foods.push(new Food(0, i));
+            foods.push(new Food(19, i));
         }
         // Function to check if Pac-Man eats the food
         function eatFood() {
@@ -116,6 +124,7 @@ permalink: /Game
             for (const food of foods) {
                 food.draw();
             }
+            player.draw();
             player.update();
             eatFood();
         }
