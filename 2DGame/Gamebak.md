@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 2D game
-permalink: /Game
+permalink: /Gamebak
 ---
 
 <style>

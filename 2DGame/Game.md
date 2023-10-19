@@ -12,7 +12,7 @@ permalink: /Game
 </style>
 <canvas id='canvas'></canvas>
 <script>
-     ( function () {
+    ( function () {
      const BLOCK = 30;
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -33,21 +33,9 @@ permalink: /Game
                 this.radius = 10; // Pac-Man's radius
                 this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening
                 this.direction = 'right'; // Initial direction
-                if (player.position.x >= 800) {
-            player.position.x = 799;
-        }
-            else if (player.position.x <= 0) {
-            player.position.x = 1;
-        }
-         if (player.position.y >= 800) {
-            player.position.y = 799;
-        }
-            else if (player.position.y <= 0) {
-            player.position.y = 1;
-        }
             }
             draw() {
-           ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'yellow';
                 ctx.beginPath();
                 // Update mouth animation based on direction
                 if (this.direction === 'right') {
@@ -56,7 +44,7 @@ permalink: /Game
                         this.mouthAngle -= 0.02;
                      if (this.mouthAngle < 0) this.direction = 'left';
               } else {
-                    // If not moving, reset the mouth angle
+                // If not moving, reset the mouth angle
                     this.mouthAngle = 0;
                 }
                 if (this.direction === 'right') {
@@ -110,9 +98,8 @@ permalink: /Game
         function eatFood() {
             for (let i = 0; i < foods.length; i++) {
                 const food = foods[i];
-                if (Math.abs(player.position.x - food.position.x * BLOCK) < 15 && Math.abs(player.position.y - food.position.y * BLOCK) < 20) {
-                    // Increase the score and remove the eaten food
-                    score += 10;
+                if (Math.abs(player.position.x - food.position.x * BLOCK) < 12 && Math.abs(player.position.y - food.position.y * BLOCK) < 12) { 
+                score += 10;
                     document.getElementById('score').innerText = `Score: ${score}`;
                     foods.splice(i, 1);
                 }
@@ -157,8 +144,8 @@ permalink: /Game
             switch (keyCode) {
                 case 65:
                 case 87:
-                case 83:
                 case 68:
+                case 83:
                     player.velocity.x = 0;
                     player.velocity.y = 0;
                     break;
