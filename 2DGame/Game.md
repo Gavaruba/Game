@@ -31,27 +31,12 @@ permalink: /Game
                     y: 0
                 };
                 this.radius = 10; // Pac-Man's radius
-                this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening
-                this.direction = 'right'; // Initial direction
+                this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening\
             }
             draw() {
             ctx.fillStyle = 'yellow';
                 ctx.beginPath();
-                // Update mouth animation based on direction
-                if (this.direction === 'right') {
-                        this.mouthAngle += 0.02;
-                     if (this.mouthAngle > 0.4) this.direction = 'right';
-                        this.mouthAngle -= 0.02;
-                     if (this.mouthAngle < 0) this.direction = 'left';
-              } else {
-                // If not moving, reset the mouth angle
-                    this.mouthAngle = 0;
-                }
-                if (this.direction === 'right') {
-                    ctx.arc(this.position.x, this.position.y, this.radius, (0 + this.mouthAngle) * Math.PI, (2 - this.mouthAngle) * Math.PI);
-                } else {
-                    ctx.arc(this.position.x, this.position.y, this.radius, (2 + this.mouthAngle) * Math.PI, (0 - this.mouthAngle) * Math.PI);
-                }
+                ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
                 ctx.lineTo(this.position.x, this.position.y);
                 ctx.fill();
             }
@@ -98,7 +83,8 @@ permalink: /Game
         function eatFood() {
             for (let i = 0; i < foods.length; i++) {
                 const food = foods[i];
-                if (Math.abs(player.position.x - food.position.x * BLOCK) < 12 && Math.abs(player.position.y - food.position.y * BLOCK) < 12) { 
+                if (Math.abs(player.position.x - food.position.x * BLOCK) < player.radius && Math.abs(player.position.y - food.position.y * BLOCK) < player.radius * Math.PI)
+                { 
                 score += 10;
                     document.getElementById('score').innerText = `Score: ${score}`;
                     foods.splice(i, 1);
@@ -121,24 +107,21 @@ permalink: /Game
                 case 65:
                     // Left key
                     player.velocity.x = -1;
-                    player.velocity.y = 0;
                     break;
                 case 87:
                     // Up key
-                    player.velocity.x = 0;
                     player.velocity.y = -1;
                     break;
                 case 68:
                     // Right key
                     player.velocity.x = 1;
-                    player.velocity.y = 0;
                     break;
                 case 83:
                     // Down key
-                    player.velocity.x = 0;
                     player.velocity.y = 1;
                     break;
-                case 81:
+                    // Sprint Key
+                case 16:
                 if (player.velocity.x > 0){
                         player.velocity.x += 1;}              
                 if (player.velocity.y > 0){
@@ -147,8 +130,16 @@ permalink: /Game
                         player.velocity.x -= 1;}
                 if (player.velocity.y < 0){
                         player.velocity.y -= 1;}
-                else { player.velocity + 0;
-                }
+                if (player.velocity.x > 2) {
+                        player.velocity.x -= 1;
+                    }
+                if (player.velocity.y > 2)
+                        player.velocity.y -= 1;
+                if (player.velocity.x < -2) {
+                        player.velocity.x += 1;
+                    }
+                if (player.velocity.y < -2)
+                        player.velocity.y += 1;
                     break;
             }
         });
@@ -161,7 +152,7 @@ permalink: /Game
                     player.velocity.x = 0;
                     player.velocity.y = 0;
                     break;
-                case 81: 
+                case 16: 
                 if (player.velocity.x > 0){
                         player.velocity.x -= 1;}
                 if (player.velocity.y > 0){
