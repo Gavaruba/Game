@@ -138,6 +138,18 @@ permalink: /Game
                     player.velocity.x = 0;
                     player.velocity.y = 1;
                     break;
+                case 81:
+                if (player.velocity.x > 0){
+                        player.velocity.x += 1;}              
+                if (player.velocity.y > 0){
+                        player.velocity.y += 1;}  
+                if (player.velocity.x < 0){
+                        player.velocity.x -= 1;}
+                if (player.velocity.y < 0){
+                        player.velocity.y -= 1;}
+                else { player.velocity + 0;
+                }
+                    break;
             }
         });
         addEventListener('keyup', ({ keyCode }) => {
@@ -148,6 +160,16 @@ permalink: /Game
                 case 83:
                     player.velocity.x = 0;
                     player.velocity.y = 0;
+                    break;
+                case 81: 
+                if (player.velocity.x > 0){
+                        player.velocity.x -= 1;}
+                if (player.velocity.y > 0){
+                        player.velocity.y -= 1;}
+                if (player.velocity.x < 0){
+                        player.velocity.x += 1;}
+                if (player.velocity.y < 0){
+                        player.velocity.y += 1;}
                     break;
             }
         });
