@@ -56,15 +56,15 @@ permalink: /Game
         class Food {
             constructor(x, y) {
                 this.position = {
-                    x: x,
-                    y: y
+                    x: x + 0.5,
+                    y: y + 0.5
                 };
             this.radius = 5;
             }
             draw() {
                 ctx.fillStyle = 'white';
                 ctx.beginPath();
-                ctx.arc((this.position.x + 0.5) * BLOCK, (this.position.y + 0.5) * BLOCK, this.radius, 0, 2 * Math.PI);
+                ctx.arc((this.position.x) * BLOCK, (this.position.y) * BLOCK, this.radius, 0, 2 * Math.PI);
                 ctx.fill();
             }
         }
