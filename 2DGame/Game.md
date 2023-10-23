@@ -21,6 +21,7 @@ permalink: /Game
         canvas.height = 600;
         const gridSize = canvas.width / BLOCK;
         let score = 0;
+        // Create Pacman's 'player' class
         class Player {
             constructor() {
                 this.position = {
@@ -48,6 +49,7 @@ permalink: /Game
                 this.position.y += this.velocity.y;
             }
         }
+        // Set keys to 'up' position
         const player = new Player();
         const keys = {
             right: { pressed: false },
@@ -55,6 +57,7 @@ permalink: /Game
             up: { pressed: false },
             down: { pressed: false }
         };
+        // Create the food class
         class Food {
             constructor(x, y) {
                 this.position = {
@@ -64,6 +67,7 @@ permalink: /Game
             this.radius = 5;
             }
             draw() {
+                // Make food round and white
                 ctx.fillStyle = 'white';
                 ctx.beginPath();
                 ctx.arc((this.position.x) * BLOCK, (this.position.y) * BLOCK, this.radius, 0, 2 * Math.PI);
@@ -87,12 +91,14 @@ permalink: /Game
                 const food = foods[i];
                 if (Math.abs(player.position.x - food.position.x * BLOCK) < player.radius && Math.abs(player.position.y - food.position.y * BLOCK) < player.radius * Math.PI)
                 { 
+                // Increase score when eaten
                 score += 10;
                     document.getElementById('score').innerText = `Score: ${score}`;
                     foods.splice(i, 1);
                 }
             }
         }
+        // Animate and update the player and food
         function animate() {
             requestAnimationFrame(animate);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
