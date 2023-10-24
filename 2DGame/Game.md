@@ -46,6 +46,7 @@ permalink: /Game
             player.position.y = 1;
         }
             }
+                if (player.position.x >=)
             draw() {
                 ctx.fillStyle = 'yellow';
                 ctx.beginPath();
