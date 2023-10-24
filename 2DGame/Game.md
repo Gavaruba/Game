@@ -12,7 +12,7 @@ permalink: /Game
 </style>
 <canvas id='canvas'></canvas>
 <script>
-     ( function () {
+    ( function () {
      const BLOCK = 30;
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -23,51 +23,25 @@ permalink: /Game
         class Player {
             constructor() {
                 this.position = {
-                    x: 10,
-                    y: 10
+                    x: 300,
+                    y: 250
                 };
                 this.velocity = {
                     x: 0,
                     y: 0
                 };
                 this.radius = 10; // Pac-Man's radius
-                this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening
-                this.direction = 'right'; // Initial direction
-                if (player.position.x >= 800) {
-            player.position.x = 799;
-        }
-            else if (player.position.x <= 0) {
-            player.position.x = 1;
-        }
-         if (player.position.y >= 800) {
-            player.position.y = 799;
-        }
-            else if (player.position.y <= 0) {
-            player.position.y = 1;
-        }
+                this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening\
             }
                 if (player.position.x >=)
             draw() {
-                ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'yellow';
                 ctx.beginPath();
-                if (this.direction === 'right') {
-                    ctx.arc(this.position.x, this.position.y, this.radius, (0 + this.mouthAngle) * Math.PI, (2 - this.mouthAngle) * Math.PI);
-                } else {
-                    ctx.arc(this.position.x, this.position.y, this.radius, (2 + this.mouthAngle) * Math.PI, (0 - this.mouthAngle) * Math.PI);
-                }
+                ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
                 ctx.lineTo(this.position.x, this.position.y);
                 ctx.fill();
             }
             update() {
-                this.draw();
-                // Update mouth animation
-                if (this.direction === 'right') {
-                    this.mouthAngle += 0.02;
-                    if (this.mouthAngle > 0.5) this.direction = 'left';
-                } else {
-                    this.mouthAngle -= 0.02;
-                    if (this.mouthAngle < 0) this.direction = 'right';
-                }
                 // Update player's position
                 this.position.x += this.velocity.x;
                 this.position.y += this.velocity.y;
@@ -83,29 +57,36 @@ permalink: /Game
         class Food {
             constructor(x, y) {
                 this.position = {
-                    x: x,
-                    y: y
+                    x: x + 0.5,
+                    y: y + 0.5
                 };
             this.radius = 5;
             }
             draw() {
                 ctx.fillStyle = 'white';
                 ctx.beginPath();
-                ctx.arc((this.position.x + 0.5) * BLOCK, (this.position.y + 0.5) * BLOCK, this.radius, 0, 2 * Math.PI);
+                ctx.arc((this.position.x) * BLOCK, (this.position.y) * BLOCK, this.radius, 0, 2 * Math.PI);
                 ctx.fill();
             }
         }
+        //
+        // Food Mapping
+        //
         const foods = [];
-        for (let i = 0; i < 15; i++) {
-            foods.push(new Food(i, 5));
+        for (let i = 0; i < 20; i++) {
+            foods.push(new Food( i, 19));
+            foods.push(new Food(i, 0));
+        } for (let i = 0; i < 19; i++) {
+            foods.push(new Food(0, i));
+            foods.push(new Food(19, i));
         }
         // Function to check if Pac-Man eats the food
         function eatFood() {
             for (let i = 0; i < foods.length; i++) {
                 const food = foods[i];
-                if (Math.abs(player.position.x - food.position.x * BLOCK) < 15 && Math.abs(player.position.y - food.position.y * BLOCK) < 20) {
-                    // Increase the score and remove the eaten food
-                    score += 10;
+                if (Math.abs(player.position.x - food.position.x * BLOCK) < player.radius && Math.abs(player.position.y - food.position.y * BLOCK) < player.radius * Math.PI)
+                { 
+                score += 10;
                     document.getElementById('score').innerText = `Score: ${score}`;
                     foods.splice(i, 1);
                 }
@@ -117,6 +98,7 @@ permalink: /Game
             for (const food of foods) {
                 food.draw();
             }
+            player.draw();
             player.update();
             eatFood();
         }
@@ -126,22 +108,39 @@ permalink: /Game
                 case 65:
                     // Left key
                     player.velocity.x = -1;
-                    player.velocity.y = 0;
                     break;
                 case 87:
                     // Up key
-                    player.velocity.x = 0;
                     player.velocity.y = -1;
                     break;
                 case 68:
                     // Right key
                     player.velocity.x = 1;
-                    player.velocity.y = 0;
                     break;
                 case 83:
                     // Down key
-                    player.velocity.x = 0;
                     player.velocity.y = 1;
+                    break;
+                    // Sprint Key
+                case 16:
+                if (player.velocity.x > 0){
+                        player.velocity.x += 1;}              
+                if (player.velocity.y > 0){
+                        player.velocity.y += 1;}  
+                if (player.velocity.x < 0){
+                        player.velocity.x -= 1;}
+                if (player.velocity.y < 0){
+                        player.velocity.y -= 1;}
+                if (player.velocity.x > 2) {
+                        player.velocity.x -= 1;
+                    }
+                if (player.velocity.y > 2)
+                        player.velocity.y -= 1;
+                if (player.velocity.x < -2) {
+                        player.velocity.x += 1;
+                    }
+                if (player.velocity.y < -2)
+                        player.velocity.y += 1;
                     break;
             }
         });
@@ -149,10 +148,20 @@ permalink: /Game
             switch (keyCode) {
                 case 65:
                 case 87:
-                case 83:
                 case 68:
+                case 83:
                     player.velocity.x = 0;
                     player.velocity.y = 0;
+                    break;
+                case 16: 
+                if (player.velocity.x > 0){
+                        player.velocity.x -= 1;}
+                if (player.velocity.y > 0){
+                        player.velocity.y -= 1;}
+                if (player.velocity.x < 0){
+                        player.velocity.x += 1;}
+                if (player.velocity.y < 0){
+                        player.velocity.y += 1;}
                     break;
             }
         });

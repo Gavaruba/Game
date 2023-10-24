@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 2D game
-permalink: /Game
+permalink: /Gamebak
 ---
 
 <style>
@@ -9,6 +9,7 @@ permalink: /Game
         margin: 0;
         border: 2px solid white;
     }
+
 </style>
 <canvas id='canvas'></canvas>
 <script>
