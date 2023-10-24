@@ -3,4 +3,4 @@ layout: default
 title: Student Blog
 ---
 
-![Pac-Man Forest](' images/28256.jpg ')
+![Pac-ManForest](' /Users/alyssa-allenabrams/Game-1/images/canvas_grid.jpeg' )
