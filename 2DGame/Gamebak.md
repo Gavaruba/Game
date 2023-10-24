@@ -9,6 +9,7 @@ permalink: /Gamebak
         margin: 0;
         border: 2px solid white;
     }
+
 </style>
 <canvas id='canvas'></canvas>
 <script>
