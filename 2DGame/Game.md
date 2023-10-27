@@ -8,7 +8,7 @@ permalink: /Game
     #canvas {
         margin: 0;
         border: 2px solid white;
-        background: url('images/canvas_grid.jpeg');
+        background: url(https://github.com/Gavaruba/Game/blob/main/images/canvas_grid.jpeg);
     }
 </style>
 <canvas id='canvas'></canvas>
