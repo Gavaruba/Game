@@ -34,6 +34,7 @@ permalink: /Game
                 this.radius = 10; // Pac-Man's radius
                 this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening\
             }
+                if (player.position.x >=)
             draw() {
             ctx.fillStyle = 'yellow';
                 ctx.beginPath();
