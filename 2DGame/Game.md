@@ -25,19 +25,18 @@ permalink: /Game
         class Player {
             constructor() {
                 this.position = {
-                    x: 375,
-                    y: 300
+                    x: 300,
+                    y: 250
                 };
                 this.velocity = {
                     x: 0,
                     y: 0
                 };
                 this.radius = 10; // Pac-Man's radius
-                this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening\
+                this.mouthAngle = 0; // Angle to control Pac-Man's mouth opening
             }
-                if (player.position.x >=)
             draw() {
-            ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'blue';
                 ctx.beginPath();
                 ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
                 ctx.lineTo(this.position.x, this.position.y);
@@ -68,7 +67,7 @@ permalink: /Game
             }
             draw() {
                 // Make food round and white
-                ctx.fillStyle = 'white';
+                ctx.fillStyle = 'black';
                 ctx.beginPath();
                 ctx.arc((this.position.x) * BLOCK, (this.position.y) * BLOCK, this.radius, 0, 2 * Math.PI);
                 ctx.fill();
