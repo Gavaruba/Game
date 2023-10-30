@@ -25,8 +25,8 @@ permalink: /Game
         class Player {
             constructor() {
                 this.position = {
-                    x: 300,
-                    y: 250
+                    x: 375,
+                    y: 300
                 };
                 this.velocity = {
                     x: 0,
