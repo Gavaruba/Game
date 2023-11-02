@@ -4,3 +4,6 @@ _posts/*_IPYNB_2_.md
 nohup.out
 Gemfile.lock
 images/favicon.ico
+2DGame/Game.md
+.vscode/settings.json
+.gitignore
